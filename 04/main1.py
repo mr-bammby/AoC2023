@@ -20,5 +20,5 @@ def main (filepath):
             sum = sum + (1 << (points - 1))
     print("REsult: " + str(sum))
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     main("./input1.txt") 
