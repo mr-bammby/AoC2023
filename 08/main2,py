@@ -1,0 +1,53 @@
+import math
+
+def main(filepath):
+    file = open(filepath, "r")
+    nodes = []
+    map = []
+    instructions = ""
+    mode = 0
+    for line in file:
+        if (mode == 0):
+            instructions = line[:-1]
+            mode = 1
+        elif(mode == 1):
+            if (line != "\n"):
+                mode = 2
+        if (mode == 2):
+            node, str_next = line.split(" = ")
+            if (str_next[-1] == "\n"):
+                str_next = str_next[:-1]
+            str_next = str_next[1:-1]
+            nodes.append(node)
+            map.append(str_next.split(", "))
+    current_nodes = []
+    for node in nodes:
+        if node[-1] == 'A':
+            current_nodes.append(node)
+    done = False
+    period = [0] * len(current_nodes)
+    cnt = 0
+    while (not done):
+        for rule in instructions:
+            done = True
+            rule_num = 0
+            if (rule == "R"):
+                rule_num = 1
+            for current_node, j in zip(current_nodes, range(len(current_nodes))):
+                if (period[j] == 0):
+                    if (current_node[-1] == "Z"):
+                        period[j] = cnt
+                    else:
+                        done = False
+            if (done):
+                break
+            for current_node, i in zip(current_nodes, range(len(current_nodes))):
+                current_nodes[i] = map[nodes.index(current_node)][rule_num]
+            cnt += 1
+    result = 1
+    for element in period:
+        result = math.lcm(result, element)
+    print("Result: " + str(result))
+
+if (__name__ == "__main__"):
+    main("./08/input1.txt")

@@ -1,0 +1,43 @@
+def main(filepath):
+    file = open(filepath, "r")
+    result = 0
+    for line in file:
+        str_nums = line.split()
+        nums = []
+        for str_num in str_nums:
+            nums.append(int(str_num))
+        last_num = []
+        done = False
+        cnt = 0
+        while (not done):
+            last_num.append(nums[-1])
+            temp_list = []
+            num_check = None
+            old_num = None
+            first_run = True
+            for num in nums:
+                if old_num == None:
+                    old_num = num
+                else:
+                    diff = num - old_num
+                    old_num = num
+                    temp_list.append(diff)
+                    if (first_run):
+                        num_check = diff
+                        first_run = False
+                    elif (num_check != diff):
+                        num_check = None
+            if (num_check != None):
+                done = True
+            else:
+                nums = temp_list
+                cnt += 1
+        next_num = num_check
+        while (cnt >= 0):
+            next_num += last_num[cnt]
+            cnt -= 1
+        result += next_num
+    print("Result: " + str(result))
+
+if (__name__ == "__main__"):
+    main("./09/input1.txt")

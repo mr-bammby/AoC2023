@@ -1,0 +1,33 @@
+def main(filepath):
+    file = open(filepath, "r")
+    result = 0
+    nodes = []
+    map = []
+    instructions = ""
+    mode = 0
+    for line in file:
+        if (mode == 0):
+            instructions = line[:-1]
+            mode = 1
+        elif(mode == 1):
+            if (line != "\n"):
+                mode = 2
+        if (mode == 2):
+            node, str_next = line.split(" = ")
+            str_next = str_next[1:-2]
+            nodes.append(node)
+            map.append(str_next.split(", "))
+    node = "AAA"
+    while (node != "ZZZ"):
+        for rule in instructions:
+            if (node == "ZZZ"):
+                break
+            rule_num = 0
+            if (rule == "R"):
+                rule_num = 1
+            node = map[nodes.index(node)][rule_num]
+            result += 1
+    print("Result: " + str(result))
+
+if (__name__ == "__main__"):
+    main("./08/input1.txt")
